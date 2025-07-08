@@ -1,0 +1,65 @@
+[
+  {
+    "number": "1/2025",
+    "invoice_date": "2025-07-06",
+    "customer_name": "Mario Rossi",
+    "description": "Consulenza software",
+    "amount": 1000.0,
+    "vat_rate": 22,
+    "pdf_path": "pdf/Fattura_1-2025.pdf"
+  },
+  {
+    "number": "1/2025",
+    "invoice_date": "2025-07-06",
+    "customer_name": "Mario Rossi",
+    "description": "Consulenza software",
+    "amount": 1000.0,
+    "vat_rate": 22,
+    "pdf_path": "pdf/Fattura_1-2025.pdf"
+  },
+  {
+    "number": "2/2025",
+    "invoice_date": "2025-07-07",
+    "customer_name": "Mario Rossi",
+    "description": "Consulenza software",
+    "amount": 1000.0,
+    "vat_rate": 22,
+    "pdf_path": "pdf/Fattura_2-2025.pdf"
+  },
+  {
+    "number": "1/2025",
+    "invoice_date": "2025-07-06",
+    "customer_name": "Mario Rossi",
+    "description": "Consulenza software",
+    "amount": 1000.0,
+    "vat_rate": 22,
+    "pdf_path": "pdf/Fattura_1-2025.pdf"
+  },
+  {
+    "number": "2/2025",
+    "invoice_date": "2025-08-10",
+    "customer_name": "ACME SpA",
+    "description": "Sviluppo software",
+    "amount": 2000.0,
+    "vat_rate": 22,
+    "pdf_path": "pdf/Fattura_2-2025.pdf"
+  },
+  {
+    "number": "3/2025",
+    "invoice_date": "2025-08-10",
+    "customer_name": "Cliente Demo",
+    "description": "Servizio X",
+    "amount": 1500.0,
+    "vat_rate": 22,
+    "pdf_path": "pdf/Fattura_3-2025.pdf"
+  },
+  {
+    "number": "3/2025",
+    "invoice_date": "2025-09-03",
+    "customer_name": "Cliente Demo",
+    "description": "Servizio X",
+    "amount": 1500.0,
+    "vat_rate": 22,
+    "pdf_path": "pdf/Fattura_3-2025.pdf"
+  }
+]

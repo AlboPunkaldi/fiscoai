@@ -1,0 +1,28 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+env/
+venv/
+.venv/
+
+# Byte-compiled / optimized / DLL files
+*.so
+
+# --- Environment ---
+.env
+
+# --- Alembic / Migrations ---
+alembic/versions/
+
+# --- Node / Frontend ---
+node_modules/
+dist/
+fisco-dashboard/node_modules/
+fisco-dashboard/dist/
+
+# --- VS Code ---
+.vscode/
+
+# --- macOS ---
+.DS_Store

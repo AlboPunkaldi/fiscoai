@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+pydantic
+reportlab
+python-multipart
+sqlmodel
+psycopg2-binary
+alembic
