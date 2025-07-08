@@ -10,6 +10,13 @@ from services.tax_service import calcola_tasse_anno, riepilogo_mensile
 
 from fastapi.middleware.cors import CORSMiddleware
 
+from fastapi import Body
+from models.ai import ChatRequest, ChatResponse
+from services.ai_service import ask_chat
+
+from fastapi import HTTPException
+from openai import OpenAIError, RateLimitError
+
 app = FastAPI(title="FiscoAI")
 
 app.add_middleware(
@@ -51,3 +58,25 @@ def get_tax_monthly():
         "anno": date.today().year,
         "mesi": riepilogo_mensile()
     }
+
+@app.post("/chat", response_model=ChatResponse)
+def chat_ai(payload: ChatRequest = Body(...)):
+    """
+    Risponde a domande fiscali in linguaggio naturale,
+    gestendo eventuali errori di quota o di API.
+    """
+    try:
+        answer = ask_chat(payload.question)
+    except RateLimitError:
+        # Quota esaurita o problema di billing
+        raise HTTPException(
+            status_code=503,
+            detail="Quota OpenAI esaurita o problemi di billing: riprova più tardi."
+        )
+    except OpenAIError as e:
+        # Qualunque altro errore API
+        raise HTTPException(
+            status_code=502,
+            detail=f"Errore OpenAI API: {e}"
+        )
+    return ChatResponse(answer=answer)
