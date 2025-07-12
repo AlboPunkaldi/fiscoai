@@ -34,7 +34,7 @@ app.add_middleware(
 )
 
 @app.post("/invoices", response_model=Invoice)
-def emit_invoice(inv: InvoiceCreate):
+def emit_invoice(inv: InvoiceCreate, user=Depends(get_current_user)):
     """
     Crea una fattura e restituisce i suoi dati.
     """
@@ -44,20 +44,20 @@ def emit_invoice(inv: InvoiceCreate):
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/invoices/pdf/{number:path}")
-def download_invoice(number: str):
+def download_invoice(number: str, user=Depends(get_current_user)):
     safe_number = number.replace("/", "-")
     path = f"pdf/Fattura_{safe_number}.pdf"
     return FileResponse(path, media_type="application/pdf")
 
 @app.get("/tax/summary", response_model=TaxSummary)
-def get_tax_summary():
+def get_tax_summary(user=Depends(get_current_user)):
     """
     Ritorna la previsione tasse dell'anno corrente (regime forfettario).
     """
     return calcola_tasse_anno()
 
 @app.get("/tax/monthly", response_model=MonthlySummary)
-def get_tax_monthly():
+def get_tax_monthly(user=Depends(get_current_user)):
     """
     Riepiloga ricavi e imposte per ciascun mese dell'anno corrente.
     """
@@ -67,7 +67,7 @@ def get_tax_monthly():
     }
 
 @app.post("/chat", response_model=ChatResponse)
-def chat_ai(payload: ChatRequest = Body(...)):
+def chat_ai(payload: ChatRequest = Body(...), user=Depends(get_current_user)):
     """
     Risponde a domande fiscali in linguaggio naturale,
     gestendo eventuali errori di quota o di API.
