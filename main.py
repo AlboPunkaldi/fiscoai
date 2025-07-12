@@ -17,6 +17,13 @@ from services.ai_service import ask_chat
 from fastapi import HTTPException
 from openai import OpenAIError, RateLimitError
 
+from fastapi import Depends, status
+from fastapi.security import OAuth2PasswordRequestForm
+from models.user import UserCreate
+from services.auth_service import (
+    create_user, authenticate, create_access_token, get_current_user
+)
+
 app = FastAPI(title="FiscoAI")
 
 app.add_middleware(
@@ -80,3 +87,28 @@ def chat_ai(payload: ChatRequest = Body(...)):
             detail=f"Errore OpenAI API: {e}"
         )
     return ChatResponse(answer=answer)
+
+@app.post("/auth/signup", status_code=status.HTTP_201_CREATED)
+def signup(payload: UserCreate):
+    """
+    Registra un utente.
+    Body JSON: { "email": "..", "password": ".." }
+    """
+    create_user(payload)
+    return {"msg": "Utente creato correttamente"}
+
+@app.post("/auth/login")
+def login(form: OAuth2PasswordRequestForm = Depends()):
+    """
+    Accetta form-urlencoded: username=<email>&password=<pwd>
+    Restituisce: { "access_token": "...", "token_type": "bearer" }
+    """
+    user = authenticate(form.username, form.password)
+    if not user:
+        raise HTTPException(status_code=400, detail="Email o password errate")
+    token = create_access_token(user.email)
+    return {"access_token": token, "token_type": "bearer"}
+
+@app.get("/auth/me")
+def me(user = Depends(get_current_user)):
+    return {"email": user.email, "role": user.role}
