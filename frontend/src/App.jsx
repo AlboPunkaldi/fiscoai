@@ -3,6 +3,18 @@ import {
   BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer,
 } from 'recharts';
 
+const authFetch = (url, options = {}) => {
+  const token = localStorage.getItem("token");
+  return fetch(url, {
+    ...options,
+    headers: {
+      ...(options.headers || {}),
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  });
+};
+
 function App() {
   const [rows, setRows] = useState([]);
 
@@ -14,7 +26,7 @@ function App() {
   const [chatLoading, setChatLoading] = useState(false);
 
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/tax/monthly')
+    authFetch('http://127.0.0.1:8000/tax/monthly')
       .then((r) => r.json())
       .then((data) => {
         console.log('Dati ricevuti dal backend 👇', data.mesi);
@@ -33,7 +45,7 @@ function App() {
     setChatLoading(true);
 
     try {
-      const res = await fetch("http://127.0.0.1:8000/chat", {
+      const res = await authFetch("http://127.0.0.1:8000/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ question: userMsg.text })
